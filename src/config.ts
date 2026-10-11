@@ -4,8 +4,7 @@ export const business = {
   name: 'Spooki Web',
   owner: 'Justin Kissoon',
   tagline: 'Websites, hosting and AI automation for small businesses.',
-  location: 'Port St. Lucie, FL',
-  region: 'Florida',
+  location: 'Working remotely with clients anywhere',
   email: 'justinkissoon0@gmail.com',
   phone: '(772) 267-6678',
   paymentTerms:
