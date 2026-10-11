@@ -1,0 +1,240 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { business, portfolio } from '../config';
+
+const title = 'Spooki Web | Websites, Hosting & AI Automation in Port St. Lucie, FL';
+const description =
+  'Spooki Web builds fast, professional websites, manages hosting and sets up AI chatbots for small businesses. Based in Port St. Lucie, FL. Websites from $999.';
+
+const websites = [
+  { name: 'Starter', price: '$999', note: 'starting at', blurb: 'A clean, fast, mobile-friendly site for businesses that need to get online and look credible.', points: ['Custom design, not a template swap', 'Mobile-friendly and SEO-ready', 'Contact details and enquiry links'] },
+  { name: 'Standard', price: '$1,999', note: 'starting at', featured: true, blurb: 'More pages and more polish for businesses with several services to explain and customers to win.', points: ['Everything in Starter', 'Additional pages and service sections', 'Content structure built for search'] },
+  { name: 'Custom', price: '$3,500', note: 'starting at', blurb: 'Bespoke builds for businesses with specific needs, integrations or a bigger vision.', points: ['Scoped to your requirements', 'Custom features and integrations', 'Quoted in writing before we start'] },
+];
+
+const ongoing = [
+  { name: 'Hosting', price: '$45', unit: '/month', note: 'starting at', blurb: 'Fast, secure hosting for your site, managed for you so you never think about servers.' },
+  { name: 'Care plan', price: '$99', unit: '/month', blurb: 'Ongoing updates and support so your site stays current, secure and working.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: business.name,
+  description,
+  url: Astro.site?.href,
+  founder: { '@type': 'Person', name: business.owner },
+  email: business.email,
+  telephone: business.phone,
+  areaServed: 'US',
+  address: { '@type': 'PostalAddress', addressLocality: 'Port St. Lucie', addressRegion: 'FL', addressCountry: 'US' },
+  priceRange: '$$',
+  makesOffer: [
+    ['Starter website', '999'], ['Standard website', '1999'], ['Custom website', '3500'],
+    ['Website hosting (monthly)', '45'], ['Care plan (monthly)', '99'], ['AI chatbot setup', '750'],
+  ].map(([n, p]) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name: n },
+    priceSpecification: { '@type': 'PriceSpecification', price: p, priceCurrency: 'USD', minPrice: p },
+  })),
+};
+
+const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/mca-vending.{png,jpg,jpeg,webp}', { eager: true });
+const shot = Object.values(shots)[0]?.default;
+const mailto = `mailto:${business.email}`;
+const tel = `tel:${business.phone.replace(/[^+\d]/g, '')}`;
+const year = new Date().getFullYear();
+---
+
+<Base title={title} description={description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(schema)} />
+
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bone">Skip to content</a>
+
+  <header class="sticky top-0 z-40 border-b border-line/70 bg-bone/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="#top" class="flex items-center gap-2.5 font-display text-xl font-semibold" aria-label="Spooki Web home">
+        <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#16151A"/><path d="M32 12c-9.4 0-17 7.4-17 16.6V50l5.6-4.2L26 50l6-4.2L38 50l5.4-4.2L49 50V28.6C49 19.4 41.4 12 32 12z" fill="#B7F34A"/><circle cx="26" cy="29" r="3.2" fill="#16151A"/><circle cx="38" cy="29" r="3.2" fill="#16151A"/></svg>
+        Spooki Web
+      </a>
+      <nav aria-label="Primary" class="flex items-center gap-1 text-sm font-medium sm:gap-6">
+        <a href="#services" class="hidden px-2 py-2 hover:underline sm:inline">Services</a>
+        <a href="#work" class="hidden px-2 py-2 hover:underline sm:inline">Work</a>
+        <a href="#about" class="hidden px-2 py-2 hover:underline sm:inline">About</a>
+        <a href="#contact" class="btn btn-primary !px-5 !py-2 text-sm">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section id="top" class="relative overflow-hidden">
+      <div class="mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-14 md:grid-cols-[1.25fr_1fr] md:items-center md:pb-28 md:pt-24">
+        <div>
+          <p class="eyebrow">Freelance web studio · Port St. Lucie, FL</p>
+          <h1 class="mt-5 text-[2.6rem] font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            Websites that work <em class="relative whitespace-nowrap font-medium not-italic"><span class="relative z-10 italic">as hard</span><span class="absolute inset-x-[-0.15em] bottom-[0.06em] top-[0.45em] -z-0 -rotate-1 rounded bg-ecto" aria-hidden="true"></span></em> as you do.
+          </h1>
+          <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+            Spooki Web designs and builds fast, good-looking websites for small businesses, hosts them, keeps them running, and adds AI automation where it saves you time. One person, no runaround.
+          </p>
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="#services" class="btn btn-primary">See services &amp; pricing</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+          </div>
+        </div>
+
+        <aside class="relative" aria-label="Pricing at a glance">
+          <div class="rotate-2 rounded-3xl border-2 border-ink bg-paper p-6 shadow-[8px_8px_0_0_var(--color-ink)]">
+            <p class="eyebrow">Pricing at a glance</p>
+            <ul class="mt-4 divide-y divide-line">
+              <li class="flex items-baseline justify-between py-3"><span>Starter website</span><span class="font-display text-xl font-semibold">from $999</span></li>
+              <li class="flex items-baseline justify-between py-3"><span>Standard website</span><span class="font-display text-xl font-semibold">from $1,999</span></li>
+              <li class="flex items-baseline justify-between py-3"><span>Custom website</span><span class="font-display text-xl font-semibold">from $3,500</span></li>
+              <li class="flex items-baseline justify-between py-3"><span>Hosting</span><span class="font-display text-xl font-semibold">from $45/mo</span></li>
+            </ul>
+            <a href="#services" class="mt-3 inline-block text-sm font-semibold underline underline-offset-4">Full price list →</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="border-y border-line bg-paper">
+      <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <p class="eyebrow">What we sell</p>
+        <h2 class="mt-3 max-w-2xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Three things, priced plainly.</h2>
+        <p class="mt-4 max-w-2xl text-lg text-ink-soft">Websites, the hosting and care to keep them healthy, and AI automation. Every price is in US dollars and is confirmed in writing before any work begins.</p>
+
+        <h3 class="mt-14 text-2xl font-semibold">1. Websites</h3>
+        <div class="mt-6 grid gap-6 md:grid-cols-3">
+          {websites.map((p) => (
+            <article class:list={['flex flex-col rounded-3xl border-2 p-7', p.featured ? 'border-ink bg-ink text-bone' : 'border-ink/15 bg-bone']}>
+              <h4 class="font-display text-2xl font-semibold">{p.name}</h4>
+              <p class:list={['mt-4 text-sm', p.featured ? 'text-bone/70' : 'text-ink-soft']}>{p.note}</p>
+              <p class="font-display text-5xl font-semibold tracking-tight">{p.price}</p>
+              <p class:list={['mt-4 leading-relaxed', p.featured ? 'text-bone/80' : 'text-ink-soft']}>{p.blurb}</p>
+              <ul class="mt-5 space-y-2 text-[0.95rem]">
+                {p.points.map((pt) => (
+                  <li class="flex gap-2.5"><span aria-hidden="true" class:list={['mt-1 inline-block h-2.5 w-2.5 shrink-0 rounded-full', p.featured ? 'bg-ecto' : 'bg-ecto-deep']}></span>{pt}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        <h3 class="mt-16 text-2xl font-semibold">2. Hosting &amp; care</h3>
+        <div class="mt-6 grid gap-6 md:grid-cols-2">
+          {ongoing.map((p) => (
+            <article class="rounded-3xl border-2 border-ink/15 bg-bone p-7">
+              <div class="flex items-baseline justify-between gap-4">
+                <h4 class="font-display text-2xl font-semibold">{p.name}</h4>
+                <p class="text-right"><span class="font-display text-4xl font-semibold tracking-tight">{p.price}</span><span class="text-ink-soft">{p.unit}</span>{p.note && <span class="block text-xs text-ink-soft">{p.note}</span>}</p>
+              </div>
+              <p class="mt-3 leading-relaxed text-ink-soft">{p.blurb}</p>
+              <p class="mt-4 text-sm font-medium">Billed monthly · cancel anytime</p>
+            </article>
+          ))}
+        </div>
+
+        <h3 class="mt-16 text-2xl font-semibold">3. AI automation</h3>
+        <article class="mt-6 grid gap-6 rounded-3xl border-2 border-ink bg-ecto p-7 md:grid-cols-[1.4fr_1fr] md:items-center md:p-10">
+          <div>
+            <h4 class="font-display text-3xl font-semibold">AI chatbot for your website</h4>
+            <p class="mt-3 max-w-xl text-lg leading-relaxed">A chatbot trained on your business that answers common customer questions, day or night, and points people to the right next step.</p>
+            <p class="mt-4 text-sm font-medium">Monthly portion billed automatically · cancel anytime</p>
+          </div>
+          <div class="rounded-2xl bg-ink p-6 text-bone">
+            <p class="text-sm text-bone/70">starting at</p>
+            <p class="font-display text-5xl font-semibold tracking-tight">$750 <span class="text-lg font-normal text-bone/70">setup</span></p>
+            <p class="mt-1 font-display text-3xl font-semibold">+ $99<span class="text-lg font-normal text-bone/70">/month</span></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <p class="eyebrow">Selected work</p>
+      <h2 class="mt-3 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Recent project</h2>
+      <article class="mt-10 grid gap-8 overflow-hidden rounded-3xl border-2 border-ink bg-paper md:grid-cols-[1.5fr_1fr]">
+        <a href={portfolio.url} target="_blank" rel="noopener noreferrer" class="block bg-line/40 p-4 sm:p-8" aria-label={`Visit ${portfolio.name} (opens in a new tab)`}>
+          <div class="overflow-hidden rounded-xl border border-ink/20 bg-white shadow-[0_20px_40px_-20px_rgba(22,21,26,0.45)]">
+            <div class="flex items-center gap-1.5 border-b border-ink/10 bg-bone px-3 py-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-ink/20"></span><span class="h-2.5 w-2.5 rounded-full bg-ink/20"></span><span class="h-2.5 w-2.5 rounded-full bg-ink/20"></span>
+              <span class="ml-3 truncate rounded-full bg-white px-3 py-0.5 text-xs text-ink-soft">mcavending.com</span>
+            </div>
+            {shot ? (
+              <Image src={shot} alt={`Screenshot of the ${portfolio.name} website homepage`} widths={[640, 960, 1280]} sizes="(min-width: 768px) 60vw, 100vw" class="block h-auto w-full" />
+            ) : (
+              <div class="flex aspect-[16/10] items-center justify-center bg-bone text-ink-soft">
+                <span class="font-display text-3xl font-semibold text-ink">{portfolio.name}</span>
+              </div>
+            )}
+          </div>
+        </a>
+        <div class="flex flex-col justify-center p-7 md:py-10 md:pl-0 md:pr-10">
+          <p class="eyebrow">Website design &amp; build</p>
+          <h3 class="mt-2 text-3xl font-semibold">{portfolio.name}</h3>
+          <p class="mt-3 leading-relaxed text-ink-soft">A website for a vending business, built to explain what they offer and make it easy for customers to get in touch.</p>
+          <a href={portfolio.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-6 self-start">Visit mcavending.com <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="border-y border-line bg-ink text-bone">
+      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-[1fr_1.4fr] md:py-28">
+        <div>
+          <p class="eyebrow !text-ecto">About</p>
+          <h2 class="mt-3 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Hi, I'm Justin.</h2>
+        </div>
+        <div class="space-y-5 text-lg leading-relaxed text-bone/85">
+          <p>I run Spooki Web from Port St. Lucie, Florida. I build websites for small businesses, host and look after them, and set up AI tools that handle the repetitive questions so owners can get back to the work they actually do.</p>
+          <p>When you hire Spooki Web you work with me directly, from the first conversation to launch and after. Prices are clear up front, the work is yours, and there's no pressure to stay if the monthly plans stop making sense.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <p class="eyebrow">Contact</p>
+      <h2 class="mt-3 max-w-2xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Tell me what you need.</h2>
+      <p class="mt-4 max-w-xl text-lg text-ink-soft">Email or call. Tell me about your business and I'll reply with a written quote.</p>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2">
+        <a href={mailto} class="group rounded-3xl border-2 border-ink bg-paper p-7 transition-colors hover:bg-ecto">
+          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft group-hover:text-ink">Email</p>
+          <p class="mt-2 break-all font-display text-2xl font-semibold sm:text-3xl">{business.email}</p>
+        </a>
+        <a href={tel} class="group rounded-3xl border-2 border-ink bg-paper p-7 transition-colors hover:bg-ecto">
+          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-ink-soft group-hover:text-ink">Phone</p>
+          <p class="mt-2 font-display text-2xl font-semibold sm:text-3xl">{business.phone}</p>
+        </a>
+      </div>
+      <p class="mt-6 text-ink-soft">{business.name} · {business.location}</p>
+    </section>
+  </main>
+
+  <footer class="bg-ink text-bone">
+    <div class="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-[1.2fr_1fr_1fr]">
+      <div>
+        <p class="font-display text-2xl font-semibold">{business.name}</p>
+        <p class="mt-2 text-bone/70">{business.tagline}</p>
+      </div>
+      <address class="not-italic text-bone/85">
+        <p class="font-semibold text-bone">Contact</p>
+        <p class="mt-2"><a class="underline underline-offset-4" href={mailto}>{business.email}</a></p>
+        <p><a class="underline underline-offset-4" href={tel}>{business.phone}</a></p>
+        <p>{business.location}</p>
+      </address>
+      <div class="text-bone/85">
+        <p class="font-semibold text-bone">Payment terms</p>
+        <p class="mt-2">{business.paymentTerms}</p>
+      </div>
+    </div>
+    <div class="border-t border-bone/15 px-5 py-5 text-center text-sm text-bone/60">
+      © {year} {business.name}. Owned and operated by {business.owner}. All prices in USD.
+    </div>
+  </footer>
+</Base>

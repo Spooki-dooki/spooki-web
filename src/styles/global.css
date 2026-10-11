@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/instrument-sans';
+
+@theme {
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --color-bone: #f3efe6;
+  --color-paper: #faf8f3;
+  --color-ink: #16151a;
+  --color-ink-soft: #55525c;
+  --color-ecto: #b7f34a;
+  --color-ecto-deep: #6f9a14;
+  --color-line: #dcd6c8;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { @apply bg-bone text-ink font-sans antialiased; }
+  h1, h2, h3 { @apply font-display; font-variation-settings: 'SOFT' 100, 'WONK' 1; }
+  :focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-transform duration-150 hover:-translate-y-0.5; }
+  .btn-primary { @apply bg-ink text-bone; }
+  .btn-ecto { @apply bg-ecto text-ink; }
+  .btn-ghost { @apply border-2 border-ink text-ink; }
+  .eyebrow { @apply text-sm font-semibold uppercase tracking-[0.14em] text-ecto-deep; }
+}
